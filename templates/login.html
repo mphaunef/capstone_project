@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %}
+
+{% block body %}
+<h1> Welcome </h1>
+
+<h2>Login</h2>
+<form action="/login">
+    <p>
+        <!-- or email??? -->
+        Username <br>
+
+        <input type="text" name="username">
+    </p>
+    <p>
+        Password <br>
+         
+        <input type="password" name="password">
+    </p>
+    <p>
+        <input type="submit">
+    </p>
+</form>
+
+<a href="/newuser">Create New User</a>
+
+
