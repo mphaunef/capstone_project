@@ -60,7 +60,7 @@ class Song_Genre(db.Model):
 
     song_genre_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     song_id = db.Column(db.Integer, db.ForeignKey('songs.song_id'))
-    genre_id = db.Column(db.String, db.ForeignKey('genres.genre_id'))
+    genre_id = db.Column(db.Integer, db.ForeignKey('genres.genre_id'))
 
     #relationships
     songs_genres_to_songs = db.relationship('Song', back_populates="songs_to_songs_genres")
@@ -83,6 +83,7 @@ class Genre(db.Model):
     def __repr__(self):
         return (f"<Genre genre_id={self.genre_id} genre_name={self.genre_name}>")
 
+
 class User_Genres(db.Model):
 
     __tablename__ = 'users_genres'
@@ -102,9 +103,11 @@ class User_Genres(db.Model):
 
 
 
-def connect_to_db(flask_app, db_uri="postgresql:///appdb", echo=True):
-    flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
-    flask_app.config["SQLALCHEMY_ECHO"] = echo
+def connect_to_db(flask_app, db_name):
+
+    # db_uri= f"postgresql:///{db_name}", echo=True
+    flask_app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql:///{db_name}"
+    flask_app.config["SQLALCHEMY_ECHO"] = True
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.app = flask_app
@@ -116,5 +119,5 @@ def connect_to_db(flask_app, db_uri="postgresql:///appdb", echo=True):
 if __name__ == "__main__":
     from server import app
 
-    connect_to_db(app)
+    connect_to_db(app, "appdb")
 

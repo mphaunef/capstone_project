@@ -9,8 +9,10 @@
     {% block head %}{% endblock %}
   </head>
   <body>
+    {% for message in get_flashed_messages() %}
+          <div class="alert alert-warning">{{ message }}</div>
+      {% endfor %}
     {% block body %}
-    
 <!-- navigation bar? -->
 <!-- <h2>username here</h2>
     drop down bar?

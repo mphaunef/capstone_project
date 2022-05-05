@@ -1,0 +1,7 @@
+-login logic x
+    if authenticated, redirect to homepage x
+-create user logic x 
+    once created, redirect to homepage as logged in user? x 
+    or? make user log in again using new information x 
+-form.get / request.get + session[] in server.py x  
+-seed database with example data - not using spotify response information
