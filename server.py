@@ -23,11 +23,9 @@ def handle_login():
     user = crud.get_by_username(username)
 
     if not user: 
-        print('user not found') 
         flash('Incorrect user or password. Please try again.')
         return redirect('/')
     if user:
-        print('user found')
         if user.password == password:
             session["username"] = user.username
             session['logged_in'] = True
@@ -58,13 +56,12 @@ def handle_new_user():
     else: 
         user_information = crud.create_new_user(email, password, username)
         session["username"] = user_information.username
-        print(session)
         session["logged_in"] = True
         return redirect('/homepage')
     
 
-@app.route('/home')
-def homepage():
+@app.route('/homepage')
+def display_homepage():
     return render_template('homepage.html')
 
 #@app.route('/??profile??')
