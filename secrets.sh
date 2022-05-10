@@ -1,0 +1,2 @@
+export CLIENT_ID='0ea9b00b04ac407bbb6cd462f139b996'
+export CLIENT_SECRET='7adc57a711cb4d5fa1aa9fd264397a89'
