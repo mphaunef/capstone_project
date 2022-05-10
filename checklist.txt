@@ -5,3 +5,42 @@
     or? make user log in again using new information x 
 -form.get / request.get + session[] in server.py x  
 -seed database with example data - not using spotify response information
+
+spotify api:
+user authentication
+get several playlist request using api
+randomly choose a playlist
+randomly choose a song inside playlist
+use "recommended" endpoint based on randomly chosen song to return a new song 
+
+
+
+user authentication:
+????? implicit ?
+-redirect to new page with button to sign in with spotify after logging in
+-ajax to handle on click?
+- once logged in redirect to homepage with user token information (spotify) and user information (database)
+
+
+get users playlists:
+ 	get /v1/users/{user_id}/playlists 
+    .random to choose 1 playlist id
+    30XoqT3eqbI5b6AwL6xeUs
+get/store(?) songs based on chosen playlist:
+    get /v1/playlists/{playlist_id}/tracks 
+    .random to choose 1 song id, artist id, and genre id
+     song id : 41NDVWdAb4YFMAaMB950zu
+     artist id : 4XVxeuUkJRiCYJYdqRpwab
+     genre id : user chosen genre from form (string) - dropdown menu ???
+        https://developer.spotify.com/console/get-available-genre-seeds/
+
+(user-read-email???? can use this in database???)
+
+
+get recommendation based on song id, artist id, genre id:
+    get 	https://api.spotify.com/v1/recommendations 
+
+
+finally: 
+
+if SONG ID ALREADY EXISTS IN DATABASE DO EVERYTHING AGAIN : )

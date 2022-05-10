@@ -4,7 +4,7 @@ import crud
 import jinja2
 
 app = Flask(__name__)
-app.secret_key = "dev"
+app.secret_key = "7adc57a711cb4d5fa1aa9fd264397a89"
 # app.jinja_env.undefined = StrictUndefined
 
 
@@ -29,7 +29,7 @@ def handle_login():
         if user.password == password:
             session["username"] = user.username
             session['logged_in'] = True
-            return redirect('/homepage')
+            return redirect('/grantspotify')
         else:
             flash('Incorrect user or password. Please try again.')
             return redirect('/login')
@@ -58,11 +58,20 @@ def handle_new_user():
         session["username"] = user_information.username
         session["logged_in"] = True
         return redirect('/homepage')
-    
+
+
+@app.route('/grantspotify')
+def display_spotify_button():
+    return render_template('spotifybutton.html')
+
 
 @app.route('/homepage')
 def display_homepage():
-    return render_template('homepage.html')
+    if user not in session:
+        return redirect('/')
+    else:
+        # get spotify genre seeds to populate dropdown menu
+        return render_template('homepage.html')
 
 #@app.route('/??profile??')
 #def profile_page():
