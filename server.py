@@ -6,6 +6,7 @@ from os import environ
 import base64
 import requests
 from datetime import datetime
+import random
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -83,8 +84,6 @@ def display_spotify_button():
 
 @app.route('/homepage')
 def display_homepage():
-    # #request.args
-    # access_code = request.args.get('code')
 
     if 'username' not in session or 'auth_token' not in session:
         return redirect('/')
@@ -92,7 +91,59 @@ def display_homepage():
         return redirect('/auth')
     else:
         # get spotify genre seeds to populate dropdown menu
-        return render_template('homepage.html')
+        genre_endpoint = 'https://api.spotify.com/v1/recommendations/available-genre-seeds'
+        headers = {
+        'Authorization' : f"Bearer {session['auth_token']['access_token']}",
+        'Content-Type' : 'application/json'
+        }
+        genres_request = requests.get(url=genre_endpoint, headers=headers)
+        genres_json = genres_request.json()
+        genres_list = []
+        for genres in genres_json['genres']:
+            genres_list.append(genres)
+        return render_template('homepage.html', genres=genres_list)
+
+@app.route('/homepage', methods=['POST'])
+def spotify_requests():
+    get_current_user_id_endpoint = 'https://api.spotify.com/v1/me'
+
+    headers = {
+        'Authorization' : f"Bearer {session['auth_token']['access_token']}",
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+    spotify_user_id_request = requests.get(url=get_current_user_id_endpoint, headers=headers)
+    spotify_user_id_request_json = spotify_user_id_request.json()
+    # print(spotify_user_id_request.json())
+    spotify_user_id = spotify_user_id_request_json['id']
+    # print(spotify_user_id)
+
+    get_current_users_playlists_endpoint = f'https://api.spotify.com/v1/users/{spotify_user_id}/playlists'
+    spotify_users_playlists_request = requests.get(url=get_current_users_playlists_endpoint, headers=headers)
+    spotify_users_playlists_request_json = spotify_users_playlists_request.json()
+    # print(spotify_users_playlists_request_json)
+    playlist_choice = random.choice(spotify_users_playlists_request_json['items'])
+    # print(playlist_choice)
+    playlist_id = playlist_choice['id']
+    # print(playlist_id)
+
+
+    get_users_playlist_items_endpoint = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks'
+    spotify_users_playlist_items = requests.get(url=get_users_playlist_items_endpoint, headers=headers)
+    spotify_users_playlist_items_json = spotify_users_playlist_items.json()
+    song_choice = random.choice(spotify_users_playlist_items_json['items'])
+    # print(spotify_users_playlist_items_json['items'][0])
+    song_id = song_choice['track']['id']
+    artist_id =song_choice['track']['artists']['id']
+
+
+    get_recommendation_request_endpoint = f"https://api.spotify.com/v1/recommendations?limit=1&seed_artists={artist_id}&seed_genres={???genre choice?? figure this out}&seed_tracks={song_id}"
+    get_recommendation_request = requests.get(url=get_recommendation_request_endpoint, headers=headers)
+
+    return "terminal"
+    # doo all my requests here???
+
+    # return json object 
 
 
 @app.route('/auth')

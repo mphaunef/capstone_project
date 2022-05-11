@@ -4,15 +4,21 @@
 {% block body %}
 <h2> Name of App </h2>
 
-<form action="/homepage">
+<form action="/homepage" id="genre-form">
     <p>
         Genre <br>
+        <select name="genre_selection" id="genre_selection">
+        {% for genre in genres %}
+        <option value={{genre}}> {{genre}}</option>
+        <!-- will this work????? -->
+        {% endfor %}
+        </select>
 
-        <input type="text" name="genre_name">
     </p>
     <p>
-        <input type="submit">
+        <button type="submit" id="get_recommendation_button"> Go!</button>
     </p>
 
 </form>
+<script src="/static/ajaxhomepage.js"></script>
 {% endblock %}

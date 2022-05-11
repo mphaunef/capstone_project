@@ -21,7 +21,7 @@ user authentication:
 -ajax to handle on click?
 - once logged in redirect to homepage with user token information (spotify) and user information (database)
 
-
+- store spotify id in databse ???
 get users playlists:
  	get /v1/users/{user_id}/playlists 
     .random to choose 1 playlist id
