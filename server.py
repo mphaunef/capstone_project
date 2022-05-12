@@ -101,10 +101,13 @@ def display_homepage():
         genres_list = []
         for genres in genres_json['genres']:
             genres_list.append(genres)
+        
         return render_template('homepage.html', genres=genres_list)
 
 @app.route('/homepage', methods=['POST'])
 def spotify_requests():
+    genre_choice = request.form.get('genre_selection')
+
     get_current_user_id_endpoint = 'https://api.spotify.com/v1/me'
 
     headers = {
@@ -134,11 +137,14 @@ def spotify_requests():
     song_choice = random.choice(spotify_users_playlist_items_json['items'])
     # print(spotify_users_playlist_items_json['items'][0])
     song_id = song_choice['track']['id']
-    artist_id =song_choice['track']['artists']['id']
+    artist_id = song_choice['track']['artists'][0]['id']
+    # print(artist_id)
 
 
-    get_recommendation_request_endpoint = f"https://api.spotify.com/v1/recommendations?limit=1&seed_artists={artist_id}&seed_genres={???genre choice?? figure this out}&seed_tracks={song_id}"
+    get_recommendation_request_endpoint = f"https://api.spotify.com/v1/recommendations?limit=1&seed_artists={artist_id}&seed_genres={genre_choice}&seed_tracks={song_id}"
     get_recommendation_request = requests.get(url=get_recommendation_request_endpoint, headers=headers)
+    get_recommendation_request_json = get_recommendation_request.json()
+    print(get_recommendation_request_json)
 
     return "terminal"
     # doo all my requests here???
