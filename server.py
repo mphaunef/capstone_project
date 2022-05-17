@@ -1,4 +1,4 @@
-from flask import (Flask, render_template, request, flash, session, redirect)
+from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
 from model import connect_to_db, db
 import crud
 import jinja2
@@ -7,6 +7,7 @@ import base64
 import requests
 from datetime import datetime
 import random
+import json
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -106,7 +107,8 @@ def display_homepage():
 
 @app.route('/homepage', methods=['POST'])
 def spotify_requests():
-    genre_choice = request.form.get('genre_selection')
+    genre_choice = request.json
+    print(genre_choice)
 
     get_current_user_id_endpoint = 'https://api.spotify.com/v1/me'
 
@@ -144,9 +146,16 @@ def spotify_requests():
     get_recommendation_request_endpoint = f"https://api.spotify.com/v1/recommendations?limit=1&seed_artists={artist_id}&seed_genres={genre_choice}&seed_tracks={song_id}"
     get_recommendation_request = requests.get(url=get_recommendation_request_endpoint, headers=headers)
     get_recommendation_request_json = get_recommendation_request.json()
-    print(get_recommendation_request_json)
-
-    return "terminal"
+    # recommended_song_id = get_recommendation_request_json['tracks']['id']
+    print('new request')
+    # print(recommended_song_id)
+    print(json.dumps(get_recommendation_request_json))
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    print(get_recommendation_request_json['tracks'][0]['id'])
+    recommended_song_id = get_recommendation_request_json['tracks'][0]['id']
+    
+    # return "blhablha"
+    return jsonify(recommended_song_id)
     # doo all my requests here???
 
     # return json object 
