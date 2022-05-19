@@ -43,8 +43,8 @@ class Song(db.Model):
     name = db.Column(db.String, nullable=False)
     artist = db.Column(db.String, nullable=False)
     album = db.Column(db.String, nullable=False)
-    release_date = db.Column(db.DateTime, nullable=False)
-    spotify_song_id = db.Column(db.Integer, unique=True)
+    release_date = db.Column(db.DateTime)
+    spotify_song_id = db.Column(db.String, unique=True)
 
     #relationships?
     songs_to_user_songs = db.relationship('User_Song', back_populates="user_songs_to_songs")

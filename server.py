@@ -44,6 +44,7 @@ def handle_login():
     if user:
         if user.password == password:
             session["username"] = user.username
+            session["user_id"] = user.user_id 
             # session['logged_in'] = True
             return redirect('/grantspotify')
         else:
@@ -107,58 +108,70 @@ def display_homepage():
 
 @app.route('/homepage', methods=['POST'])
 def spotify_requests():
-    genre_choice = request.json
-    print(genre_choice)
+    '''All requests to Spotify API'''
 
-    get_current_user_id_endpoint = 'https://api.spotify.com/v1/me'
+
+    #Users genre choice from "ajaxhomepage.js"
+    genre_choice = request.json
 
     headers = {
         'Authorization' : f"Bearer {session['auth_token']['access_token']}",
         'Accept': 'application/json',
         'Content-Type': 'application/json'
     }
+
+    '''Request for current Spotify user Id'''
+
+    get_current_user_id_endpoint = 'https://api.spotify.com/v1/me'
     spotify_user_id_request = requests.get(url=get_current_user_id_endpoint, headers=headers)
     spotify_user_id_request_json = spotify_user_id_request.json()
-    # print(spotify_user_id_request.json())
+
     spotify_user_id = spotify_user_id_request_json['id']
-    # print(spotify_user_id)
+
+    '''Request for current Spotify user's playlists'''
 
     get_current_users_playlists_endpoint = f'https://api.spotify.com/v1/users/{spotify_user_id}/playlists'
     spotify_users_playlists_request = requests.get(url=get_current_users_playlists_endpoint, headers=headers)
     spotify_users_playlists_request_json = spotify_users_playlists_request.json()
-    # print(spotify_users_playlists_request_json)
-    playlist_choice = random.choice(spotify_users_playlists_request_json['items'])
-    # print(playlist_choice)
-    playlist_id = playlist_choice['id']
-    # print(playlist_id)
 
+    #Randomly selecting a users playlist id
+    playlist_choice = random.choice(spotify_users_playlists_request_json['items'])
+    playlist_id = playlist_choice['id']
+
+
+    '''Request to get chosen playlists items(songs)'''
 
     get_users_playlist_items_endpoint = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks'
     spotify_users_playlist_items = requests.get(url=get_users_playlist_items_endpoint, headers=headers)
     spotify_users_playlist_items_json = spotify_users_playlist_items.json()
     song_choice = random.choice(spotify_users_playlist_items_json['items'])
-    # print(spotify_users_playlist_items_json['items'][0])
+
+    #Randomly selecting a song from the randomly selected playlist
     song_id = song_choice['track']['id']
     artist_id = song_choice['track']['artists'][0]['id']
-    # print(artist_id)
 
+
+    '''Request to put all previous responses together and get a Spotify recommendation response'''
 
     get_recommendation_request_endpoint = f"https://api.spotify.com/v1/recommendations?limit=1&seed_artists={artist_id}&seed_genres={genre_choice}&seed_tracks={song_id}"
     get_recommendation_request = requests.get(url=get_recommendation_request_endpoint, headers=headers)
     get_recommendation_request_json = get_recommendation_request.json()
-    # recommended_song_id = get_recommendation_request_json['tracks']['id']
-    print('new request')
-    # print(recommended_song_id)
-    print(json.dumps(get_recommendation_request_json))
-    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-    print(get_recommendation_request_json['tracks'][0]['id'])
-    recommended_song_id = get_recommendation_request_json['tracks'][0]['id']
-    
-    # return "blhablha"
-    return jsonify(recommended_song_id)
-    # doo all my requests here???
+  
 
-    # return json object 
+    '''Declaring variables for data entry into database'''
+
+    recommended_song_id = get_recommendation_request_json['tracks'][0]['id']
+    recommended_song_name = get_recommendation_request_json['tracks'][0]['name']
+    recommended_song_artist = get_recommendation_request_json['tracks'][0]['album']['artists'][0]['name']
+    recommended_song_album = get_recommendation_request_json['tracks'][0]['album']['name']
+    recommended_song_release_date = get_recommendation_request_json['tracks'][0]['album']['release_date']
+
+    #Database entry
+    crud.enter_new_song_to_user(user_id=session['user_id'],spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date)
+
+    #Return value to plug into Spotify embed uri
+    return jsonify(recommended_song_id)
+
 
 
 @app.route('/auth')
