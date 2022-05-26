@@ -1,5 +1,5 @@
 from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
-from model import connect_to_db, db
+from model import connect_to_db, db, User_Song
 import crud
 import jinja2
 from os import environ 
@@ -103,7 +103,7 @@ def display_homepage():
         genres_list = []
         for genres in genres_json['genres']:
             genres_list.append(genres)
-        
+        print(genres_list)
         return render_template('homepage.html', genres=genres_list)
 
 @app.route('/homepage', methods=['POST'])
@@ -167,10 +167,47 @@ def spotify_requests():
     recommended_song_release_date = get_recommendation_request_json['tracks'][0]['album']['release_date']
 
     #Database entry
-    crud.enter_new_song_to_user(user_id=session['user_id'],spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date)
+    checking_song_id = crud.get_song_id_by_spotify_id(recommended_song_id)
+    print(checking_song_id)
+    print('i am after the None')
+    if checking_song_id != None:
 
-    #Return value to plug into Spotify embed uri
-    return jsonify(recommended_song_id)
+        print('i am in side database now')
+        #checking if a user has listened to this song (returns song obj or None)
+        checking_if_user_listened = crud.check_if_song_exists_for_user(user_id = session['user_id'], song_id=checking_song_id)
+        print(checking_if_user_listened)
+
+        if checking_if_user_listened == None:
+
+            crud.enter_new_song_to_user(user_id=session['user_id'],spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date, genre_name=genre_choice)
+            #need to write new function to replace this ^ that connects existing
+            #song in song table to specific user
+            return jsonify(recommended_song_id)
+            # return ('ya')
+        else:
+            print('i exist idiot')
+            return ('no')
+            # spotify_requests()
+    else:
+
+        crud.enter_new_song_to_user(user_id=session['user_id'],spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date, genre_name=genre_choice)
+
+        return jsonify(recommended_song_id)
+
+    print('189')
+    return 'okay angry'
+
+    # print(db.session.query(Song.spotify_id).filter_by(User.user_id == session["user_id"]).first())
+
+    # crud.enter_new_song_to_user(user_id=session['user_id'],spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date, genre_name=genre_choice)
+
+
+    # #Return value to plug into Spotify embed uri
+    # #if song is in db redo ^ else return
+    # #(if song id is connected to user_id)
+    # #if ___ .first() == None: return song
+    # #if .first() != None: redo requests, return new song
+    # return jsonify(recommended_song_id)
 
 
 

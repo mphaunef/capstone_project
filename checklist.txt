@@ -44,3 +44,20 @@ get recommendation based on song id, artist id, genre id:
 finally: 
 
 if SONG ID ALREADY EXISTS IN DATABASE DO EVERYTHING AGAIN : )
+
+
+
+
+>crud function for adding song by choosen genre
+>add logic to not play song if its in database per user
+>user profile
+    show existing genres for that specific user AS buttons
+    THEN can click into genre
+    once in genre, display all songs in genre from users
+
+
+>navigation bar
+>forgot password/username
+
+
+

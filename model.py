@@ -89,7 +89,6 @@ class User_Genres(db.Model):
     __tablename__ = 'users_genres'
 
     ''' All users playlists/genres '''
-
     user_genre_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     genre_id = db.Column(db.Integer, db.ForeignKey('genres.genre_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
