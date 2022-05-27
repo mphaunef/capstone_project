@@ -25,11 +25,15 @@ def add_genre_to_database(genre_name):
     db.session.commit()
     return genre
 
-
-
-def enter_new_song_to_user(user_id, song_name, artist, album, spotify_song_id, genre_name, release_date=None):
-
+def enter_new_song_to_song_table(song_name, artist, album, spotify_song_id, release_date=None):
     song = Song(name=song_name, artist=artist, album=album, release_date=release_date, spotify_song_id=spotify_song_id)
+    db.session.add(song)
+    return song
+
+def enter_new_song_to_user(user_id, song, genre_name):
+    #need to take out user connection and put into another crud function
+    # song = Song(name=song_name, artist=artist, album=album, release_date=release_date, spotify_song_id=spotify_song_id)
+    print(song)
     song.songs_to_user_songs.append(User_Song(user_id=user_id))
     db.session.add(song)
     # .append(songs_genres(genre_id=genre_name))
@@ -57,9 +61,9 @@ def enter_new_song_to_user(user_id, song_name, artist, album, spotify_song_id, g
 
 def get_song_id_by_spotify_id(spotify_song_id):
     
-    song_id = db.session.query(Song.song_id).filter(spotify_song_id == Song.spotify_song_id).first()
+    song_obj = Song.query.filter(Song.spotify_song_id == spotify_song_id).first()
     #this will return None is there is no song id at that spotify id`
-    return song_id
+    return song_obj
 
 def check_if_song_exists_for_user(user_id, song_id):
 
@@ -72,6 +76,9 @@ def check_if_song_exists_for_user(user_id, song_id):
     listened  = db.session.query(User_Song).filter(song_id == User_Song.song_id, user_id == User_Song.user_id).first()
     #returns song object
     #in server, if this function returns anything but None, a user HAS listened to the song
+    print(song_id)
+    print(user_id)
+    # print(listened)
     return listened
 
 
@@ -80,8 +87,7 @@ def check_if_song_exists_for_user(user_id, song_id):
 # user song id to see if user id has song id
 
 
-# def enter_song_into_genre_for_user(user_id, song_name, genre_id, genre_name)
-#     song_genre = 
+
 
 
 # def check_password_by_username(username, password):

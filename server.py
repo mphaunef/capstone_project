@@ -144,9 +144,11 @@ def spotify_requests():
     get_users_playlist_items_endpoint = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks'
     spotify_users_playlist_items = requests.get(url=get_users_playlist_items_endpoint, headers=headers)
     spotify_users_playlist_items_json = spotify_users_playlist_items.json()
-    song_choice = random.choice(spotify_users_playlist_items_json['items'])
+    
+
 
     #Randomly selecting a song from the randomly selected playlist
+    song_choice = random.choice(spotify_users_playlist_items_json['items'])
     song_id = song_choice['track']['id']
     artist_id = song_choice['track']['artists'][0]['id']
 
@@ -157,57 +159,91 @@ def spotify_requests():
     get_recommendation_request = requests.get(url=get_recommendation_request_endpoint, headers=headers)
     get_recommendation_request_json = get_recommendation_request.json()
   
-
+    #TO-DO: if tracks not in response from spotify, get new response
     '''Declaring variables for data entry into database'''
 
     recommended_song_id = get_recommendation_request_json['tracks'][0]['id']
-    recommended_song_name = get_recommendation_request_json['tracks'][0]['name']
-    recommended_song_artist = get_recommendation_request_json['tracks'][0]['album']['artists'][0]['name']
-    recommended_song_album = get_recommendation_request_json['tracks'][0]['album']['name']
-    recommended_song_release_date = get_recommendation_request_json['tracks'][0]['album']['release_date']
+
+
+    # unusable_song = True
+ 
+    while True:
+        song_obj = crud.get_song_id_by_spotify_id(recommended_song_id) #recommended_song_id
+        if song_obj != None:
+            checking_if_user_listened = crud.check_if_song_exists_for_user(user_id=session['user_id'], song_id=song_obj.song_id)
+            if checking_if_user_listened == None:  
+                #do everything again
+                # crud.enter_new_song_to_user(user_id=3, song=checking_song_obj, genre_name=genre_choice)
+                # unusable_song = False
+                break
+            else:
+                song_choice = random.choice(spotify_users_playlist_items_json['items'])
+                song_id = song_choice['track']['id']
+                artist_id = song_choice['track']['artists'][0]['id']
+                get_recommendation_request_endpoint = f"https://api.spotify.com/v1/recommendations?limit=1&seed_artists={artist_id}&seed_genres={genre_choice}&seed_tracks={song_id}"
+                get_recommendation_request = requests.get(url=get_recommendation_request_endpoint, headers=headers)
+                get_recommendation_request_json = get_recommendation_request.json()
+                recommended_song_id = get_recommendation_request_json['tracks'][0]['id']
+                break
+
+        else:
+            # make a song obj
+            recommended_song_name = get_recommendation_request_json['tracks'][0]['name'] # these lines may not need to happen until you have a viable song
+            recommended_song_artist = get_recommendation_request_json['tracks'][0]['album']['artists'][0]['name']
+            recommended_song_album = get_recommendation_request_json['tracks'][0]['album']['name']
+            recommended_song_release_date = get_recommendation_request_json['tracks'][0]['album']['release_date']
+            # overwriting song_obj variable name so that it's no longer None
+            song_obj = crud.enter_new_song_to_song_table(spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date)
+            # unusable_song = False
+            break
+    crud.enter_new_song_to_user(user_id=session['user_id'], song=song_obj, genre_name=genre_choice)
+
+
+
+    # recommended_song_name = get_recommendation_request_json['tracks'][0]['name'] # these lines may not need to happen until you have a viable song
+    # recommended_song_artist = get_recommendation_request_json['tracks'][0]['album']['artists'][0]['name']
+    # recommended_song_album = get_recommendation_request_json['tracks'][0]['album']['name']
+    # recommended_song_release_date = get_recommendation_request_json['tracks'][0]['album']['release_date']
 
     #Database entry
-    checking_song_id = crud.get_song_id_by_spotify_id(recommended_song_id)
-    print(checking_song_id)
-    print('i am after the None')
-    if checking_song_id != None:
+    # checking_song_obj = crud.get_song_id_by_spotify_id('0sdhpuSSWjRvrVAYDyWaBc')
+    # print(checking_song_obj)
 
-        print('i am in side database now')
-        #checking if a user has listened to this song (returns song obj or None)
-        checking_if_user_listened = crud.check_if_song_exists_for_user(user_id = session['user_id'], song_id=checking_song_id)
-        print(checking_if_user_listened)
+    # print(f"SESSION USER ID = {session['user_id']}")
+    # print('i am after the None')
+    # if checking_song_obj != None:
 
-        if checking_if_user_listened == None:
+    #     print('i am in side database now')
+    #     #checking if a user has listened to this song (returns song obj or None)
+    #     checking_if_user_listened = crud.check_if_song_exists_for_user(user_id=3, song_id=checking_song_obj.song_id)
+    #     print(checking_if_user_listened)
 
-            crud.enter_new_song_to_user(user_id=session['user_id'],spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date, genre_name=genre_choice)
-            #need to write new function to replace this ^ that connects existing
-            #song in song table to specific user
-            return jsonify(recommended_song_id)
-            # return ('ya')
-        else:
-            print('i exist idiot')
-            return ('no')
-            # spotify_requests()
-    else:
 
-        crud.enter_new_song_to_user(user_id=session['user_id'],spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date, genre_name=genre_choice)
+    #     if checking_if_user_listened == None:
 
-        return jsonify(recommended_song_id)
+    #         # crud.enter_new_song_to_user(user_id=session['user_id'],spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date, genre_name=genre_choice)
+    #         # user_id=session['user_id']
+    #         crud.enter_new_song_to_user(user_id=3, song=checking_song_obj, genre_name=genre_choice)
+    #         #need to write new function to replace this ^ that connects existing
+    #         #song in song table to specific user
+    #         return jsonify('0sdhpuSSWjRvrVAYDyWaBc')
+    #         # return ('ya')
+    #     else:
+    #         print('i exist idiot')
+    #         return ('no')
+    #         spotify_requests()
+    # else:
 
-    print('189')
-    return 'okay angry'
+    #     # crud.enter_new_song_to_user(user_id=session['user_id'],spotify_song_id=1RwwmiVtLAtPmxAqKVfwgG, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date, genre_name=genre_choice)
+    #     crud.enter_new_song_to_song_table(spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date, genre_name=genre_choice)
+    #     return jsonify(recommended_song_id)
 
-    # print(db.session.query(Song.spotify_id).filter_by(User.user_id == session["user_id"]).first())
+
+
 
     # crud.enter_new_song_to_user(user_id=session['user_id'],spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date, genre_name=genre_choice)
 
-
-    # #Return value to plug into Spotify embed uri
-    # #if song is in db redo ^ else return
-    # #(if song id is connected to user_id)
-    # #if ___ .first() == None: return song
-    # #if .first() != None: redo requests, return new song
-    # return jsonify(recommended_song_id)
+    return jsonify(recommended_song_id)
 
 
 
