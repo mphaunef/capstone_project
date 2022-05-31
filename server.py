@@ -103,7 +103,6 @@ def display_homepage():
         genres_list = []
         for genres in genres_json['genres']:
             genres_list.append(genres)
-        print(genres_list)
         return render_template('homepage.html', genres=genres_list)
 
 @app.route('/homepage', methods=['POST'])
@@ -184,7 +183,7 @@ def spotify_requests():
                 get_recommendation_request = requests.get(url=get_recommendation_request_endpoint, headers=headers)
                 get_recommendation_request_json = get_recommendation_request.json()
                 recommended_song_id = get_recommendation_request_json['tracks'][0]['id']
-                break
+                # break
 
         else:
             # make a song obj
@@ -291,9 +290,19 @@ def sign_out():
     session.clear()
     return redirect('/')
 
-#@app.route('/??profile??')
-#def profile_page():
-# return render_template('user_profile.html')
+@app.route('/profile')
+def profile_page():
+
+    # genre_id_lst = crud.get_genre_id_for_user(session['user_id'])
+
+    # genre_names = []
+    # for genre_id in genre_id_lst:
+    #     genre_names.append(crud.get_genre_name_by_id(genre_id))
+
+    user_songs_by_genre_dict = crud.make_user_profile_dictionary(session['user_id'])
+
+    return render_template('user_profile.html', user_songs_by_genre_dict=user_songs_by_genre_dict)
+
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

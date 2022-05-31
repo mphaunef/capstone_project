@@ -94,15 +94,134 @@ def check_if_song_exists_for_user(user_id, song_id):
 
 
 
-# function for reponse from spotify api into song and genre table
+def get_genre_id_for_user(user_id):
+    #get information from user_genres table
 
+    genre_objs = db.session.query(User_Genres.genre_id).filter(User_Genres.user_id == user_id).all()
+    
+    genre_ids = []
+    for genre_obj in genre_objs:
+        genre_id = genre_ids.append(genre_obj.genre_id)
+
+    return genre_ids
+
+def get_genre_name_by_id(genre_id):
+    genre_name_obj = db.session.query(Genre.genre_name).filter(Genre.genre_id == genre_id).one()
+    genre_name = genre_name_obj.genre_name
+    
+    return genre_name
+
+def get_user_songs_id_by_genre(user_id, genre_id_lst): #1, [87, 117, 11, 1, 1]
+    song_ids_obj = [] #[2, 3, 4, [4,7,8], [4,7,8] ]
+    print("genre_id_lst", genre_id_lst)
+    for genre_id in genre_id_lst:
+        print("\tgenre_id", genre_id)
+        song_ids_obj.append(db.session.execute(f"""SELECT song_id
+                        FROM user_songs
+                        JOIN songs USING (song_id)
+                        JOIN songs_genres USING (song_id)
+                        WHERE user_id={user_id} AND songs_genres.genre_id={genre_id}""").fetchall())
+        print("\tsong_ids_obj", song_ids_obj, "******")
+
+    # song_ids = []
+    # for song in song_ids_obj:
+    #     song_ids.append(song[0])
+    #     print("\tsong", song)
+    
+    # print("song_ids", song_ids)
+    
+
+
+# x = db.session.query(User_Song.song_id, User_Song.user_id,Song_Genre.genre_id).join(Song).filter(User_Song.song_id == 1).join(Song_Genre).filter(Song_Genre.genre_id==1)
+
+# # select song_id, user_id, songs_genres.genre_id from user_songs
+# join songs
+# using (song_id)
+# join songs_genres
+# using (song_id)
+# where user_id = ??? and songs_genres.genre_id = ???;
+
+# db.session.execute(f"""SELECT song_id, user_id, songs_genres.genre_id FROM user_songs
+#                         JOIN songs USING (song_id)
+#                         JOIN songs_genres USING (song_id)
+#                         WHERE user_id={1} AND songs_genres.genre_id={1}""")
 
 # functions for showing user profile information
 #     -show genres by user id as an <a> link 
 #     -show all songs by user id 
 
+
+
+    """
+    # query for all of user's songs,
+    # place each song in the correct list based on what genre it is
+    song_by_genre_dict = {"pop": [<Song_obj>]}
+    genre_name--> user.users_to_users_genres[0].users_genres_to_genre.genre_name
+    list of songs--> user.users_to_user_songs[0].user_songs_to_songs
+    list of gernres related to soing
+--> user.users_to_user_songs[0].user_songs_to_songs.songs_to_songs_genres    
+
+session["user_id"]
+we have a user
+get users user_genres and user songs
+
+we make a dict with genre_objs as keys
+        lists of songs_objects as values"""
+
+def make_user_profile_dictionary(user_id):
+
+    songs_by_genre_dict= {}
+
+    user = User.query.get(user_id) # User.query.get(user_id_goes_here)
+
+
+    genres = [ user_genre.users_genres_to_genre for user_genre in user.users_to_users_genres]
+    
+    for user_genre in user.users_to_users_genres:
+        songs_by_genre_dict[user_genre.genre_id] = {"genre":
+             user_genre.users_genres_to_genre.genre_name, 
+             "song_list": []}
+    
+
+    songs = [ user_song.user_songs_to_songs for user_song in user.users_to_user_songs ]
+    for song in songs:
+        genre_id = song.songs_to_songs_genres[0].genre_id
+        if genre_id in songs_by_genre_dict:
+            songs_by_genre_dict[genre_id]['song_list'].append(song)
+    return songs_by_genre_dict
+
+
+'''
+
+
+
+songs_by_genre_dict = { 87: # genre_id
+                            {"genre": <genre_obj>, "song_list": [<song_obj>, <song_obj>]}}
+
+{% for genre_id in songs_by_genre_dict% }
+    <button> {{songs_by_genre_dict[genre_id]["genre"].genre_name}}</button> # <button>Pop</button>
+        <ul>
+            for song in songs_by_genre_dict[genre_id]["songs"]
+            <li> {{song.song_name}} </lil>
+        </ul>
+
+
+{user_genre : song, song, song, song, song}
+{"pop":[ song_obj, song_obj], "brazil": song_obj, song_obj}
+"""
+
+
+#     genres = [ user_genre.users_genres_to_genre for user_genre in user.users_to_users_genres]
+
+# list comprtehension
+#             expression                for        item        in   iterable
+#                   num * 2                                  num     in     nums
+#                   obj.attr              for         obj         in      list
+
+##double_list.append(num*2) -> this is expression in list comprehension
+'''
+
 if __name__ == "__main__":
     from server import app
     # DebugToolbarExtension(app)
     connect_to_db(app, "appdb")
-

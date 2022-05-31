@@ -1,7 +1,19 @@
 {% extends 'base.html' %}
+<link rel="stylesheet"
+href="/static/css/style.css">
 {% block title %} My Profile {% endblock %}
 
+
 {% block body %}
+{% for genre_id in user_songs_by_genre_dict %}
+    <button class="genre-buttons" id="{{genre_id}}">{{user_songs_by_genre_dict[genre_id]['genre']}}</button> <br>
+    <ul id="song-list-{{genre_id}}">
+   {% for song in user_songs_by_genre_dict[genre_id]["song_list"] %}
+        <li>Song: {{song.name}} Artist: {{song.artist}} Album: {{song.album}} Release Date: {{song.release_date}}</li>
 
-
+    {% endfor %}
+    </ul>
+{% endfor %}
 {% endblock %}
+
+<!-- <script src="/static/ajaxuserprofile.js"></script> -->
