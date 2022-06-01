@@ -3,19 +3,21 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet"
+    href="/static/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>
       {% block title %}{% endblock %}
     </title>
     {% block head %}{% endblock %}
   </head>
+  {% if 'user_id' in session%}
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
     <span class="navbar-brand mb-0 h1">Name of App</span>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      {% if 'user_id' in session%}
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -27,50 +29,37 @@
         </ul>
       </div>
       <!-- <a class="nav-link" href="/logout">Log out</a> -->
-        {% else %}
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <a class="nav-link" href="/">Create account</a>
-        </div>
 
         <!-- <a class="nav-link" href="/login">Log in</a> -->
-      {% endif%}
-    </div>
+      </div>
     <div class="btn-group">
       <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        Right-aligned menu
+        {{session["username"]}}
       </button>
       <ul class="dropdown-menu dropdown-menu-end">
-        <li><a class="dropdown-item" href="#">Menu item</a></li>
-        <li><a class="dropdown-item" href="#">Menu item</a></li>
-        <li><a class="dropdown-item" href="#">Menu item</a></li>
+        <li><a class="dropdown-item" href=profile>My Profile</a></li>
+        <li><a class="dropdown-item" href="#">Likes</a></li>
+        <li><a class="dropdown-item" href=logout>Logout</a></li>
       </ul>
     </div>
-    
-    
-    
-    
     </nav>
-
-
-
-
-
-
-
-
-
-
-    {% for message in get_flashed_messages() %}
-          <div class="alert alert-warning">{{ message }}</div>
-      {% endfor %}
-    {% block body %}
-<!-- navigation bar? -->
-<!-- <h2>username here</h2>
-    drop down bar?
-    <li><a href="/userprofile"> Profile</a></li> -->
-
+    {% endif%}
     
+    {% block body %} 
     {% endblock %}
+    <footer>
+      <div class="container-fluid">
+          <h10 id="footer-title">Definitely not Sofias Code ©</h10>
+          <br>
+          <span> <a href="#">About Me |</a><a href="#"> Github |</a><a href="#"> Linkedin |</a> 2022</span>
+      </div>
+  </footer>
+    
+
+
+
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 

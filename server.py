@@ -285,19 +285,14 @@ def handle_access_code():
 
 
 
-@app.route('/sign_out')
-def sign_out():
+@app.route('/logout')
+def logout():
     session.clear()
     return redirect('/')
 
 @app.route('/profile')
 def profile_page():
 
-    # genre_id_lst = crud.get_genre_id_for_user(session['user_id'])
-
-    # genre_names = []
-    # for genre_id in genre_id_lst:
-    #     genre_names.append(crud.get_genre_name_by_id(genre_id))
 
     user_songs_by_genre_dict = crud.make_user_profile_dictionary(session['user_id'])
 
