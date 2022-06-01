@@ -21,13 +21,21 @@ get_recommendation_form.addEventListener('submit', (evt) => {
 
 
 
-        // wont work because its only for podcast-type --v
-        // window.onSpotifyIframeApiReady = (IFrameAPI) => {
-        //         let element = document.getElementById('embed-iframe');
-        //         let options = {
-        //             uri: 'spotify:episode:7makk4oTQel546B0PZlDM5'
-        //           };
-        //         let callback = (EmbedController) => {};
-        //         IFrameAPI.createController(element, options, callback);
-        //       };
+// When the user scrolls the page, execute myFunction
+window.onscroll = function() {myFunction()};
+
+// Get the navbar
+var navbar = document.getElementById("navbar");
+
+// Get the offset position of the navbar
+var sticky = navbar.offsetTop;
+
+// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+} 
               

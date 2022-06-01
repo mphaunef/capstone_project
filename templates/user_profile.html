@@ -7,14 +7,14 @@ href="/static/css/style.css">
 {% block body %}
 {% for genre_id in user_songs_by_genre_dict %}
     <button class="genre-buttons" value="{{genre_id}}">{{user_songs_by_genre_dict[genre_id]['genre']}}</button> <br>
-    <div id="song-list">
-    <ul id="{{genre_id}}">
+
+    <ul class="hidden" id="{{genre_id}}">
    {% for song in user_songs_by_genre_dict[genre_id]["song_list"] %}
         <li>Song: {{song.name}} Artist: {{song.artist}} Album: {{song.album}} Release Date: {{song.release_date}}</li>
 
     {% endfor %}
     </ul>
-    </div>
+
 {% endfor %}
 
 <script src="/static/ajaxuserprofile.js"></script>
