@@ -49,7 +49,7 @@ def handle_login():
             return redirect('/grantspotify')
         else:
             flash('Incorrect user or password. Please try again.')
-            return redirect('/login')
+            return redirect('/')
 
 
 

@@ -3,6 +3,10 @@
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
 {% block body %}
 
+<body id="homepage-body">
+    <div class="container-fluid justify-content-center">
+        <div class="row justify-content-center  align-items-center">
+          <div class="col-md-12" id="homepage-column">
 <form action="/homepage" id="genre-form">
     <p>
         Genre <br>
@@ -18,16 +22,11 @@
     </p>
 
 </form>
-
+</div>
 
 
 <div id="embed-iframe"></div>
-<!-- <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/{{recommended_song_id}}" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe> -->
-<!-- 
-<iframe src="https://open.spotify.com/embed/track/2P61EK6DMGyVyssLWS4fKy" width="650" height="380" frameborder="0" allowtransparency="true"></iframe> -->
-
-<!-- <iframe src="https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DWWvHBEQLnV1N" width="650" height="380" frameborder="0" allowtransparency="true"></iframe> -->
-
 
 <script src="/static/ajaxhomepage.js"></script>
+</body>
 {% endblock %}
