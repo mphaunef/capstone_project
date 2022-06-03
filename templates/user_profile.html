@@ -5,10 +5,14 @@ href="/static/css/style.css">
 
 {{username}}
 {% block body %}
-<body id="profile_body">
-    <div class="container-fluid" id="stuff">
-        <div class="row user-profile">
-            <div class="col-md-2" id="genres-column">
+<body>
+    
+    
+    <div class="row">
+
+       <div id="profile_body"> 
+        <div class="user-profile">
+            <div class="col-md-4" id="genres-column">
                 {% for genre_id in user_songs_by_genre_dict %}
                 <button class="genre-buttons" value="{{genre_id}}">{{user_songs_by_genre_dict[genre_id]['genre']}}</button> <br>
 
@@ -23,7 +27,8 @@ href="/static/css/style.css">
                 {% endfor %}
             </div> {# this closes col #}
         
-        <div class="col-md-8" id="users_songs_table">
+        <div class="col-md-4" id="users_songs_table">
+            <div id="song-information"></div>
             <table class="table">
                 <thead>
                     <tr>
@@ -47,8 +52,10 @@ href="/static/css/style.css">
                 {% endfor %}
                 </table>
         </div> {# this closes col #}
-        </div> {# this closes row #}
+         {# this closes row #}
+        </div>
     </div>
+ </div>   
 <script src="/static/ajaxuserprofile.js"></script>
 </body>
 {% endblock %}

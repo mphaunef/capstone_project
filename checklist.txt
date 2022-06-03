@@ -61,3 +61,83 @@ if SONG ID ALREADY EXISTS IN DATABASE DO EVERYTHING AGAIN : )
 
 
 
+/* #bg {
+    position: fixed; 
+    top: -50%; 
+    left: -50%; 
+    width: 200%; 
+    height: 200%;
+    z-index: -1;
+}
+
+#bg img {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    bottom: 0; 
+    margin: auto; 
+    min-width: 50%;
+    min-height: 50%;
+} */
+
+/* #profile_body{
+    min-height: 980px;
+    max-height: 980px;
+    background-image: url('/static/images/spotify_knockoff.png');
+    background-repeat: no-repeat;
+    background-size: 1920px 1050px;
+
+} 
+
+.row.user-profile{
+    /* margin-top: 1000px; */
+    background-color: rgb(44, 44, 44);
+    /* background-color: aqua; */
+    /* padding-top: 30px;
+    padding-bottom: 30px;
+    border-radius: 10px;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    justify-content: center; */
+} */
+
+/* #genres-column{
+    background-color: lightgrey;
+    border-radius: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#users_songs_table{
+    background-color: lightgrey;
+    border-radius: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-left: 5px;
+    align-content: center;
+    align-items: center;
+} */
+
+/* .container-fluid{
+    /* justify-content: center;
+    align-items: center; */
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    /* margin-top: 50px; */
+/* }
+
+.user-profile{
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+
+/* .all{
+   color: aqua !important;
+   /* min-width: 3000px !important; */
+   /* background-color: aqua !important;
+} */ */
+/* *********************************** */
