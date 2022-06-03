@@ -3,22 +3,54 @@
 href="/static/css/style.css">
 {% block title %} My Profile {% endblock %}
 
-
+{{username}}
 {% block body %}
-{% for genre_id in user_songs_by_genre_dict %}
-    <button class="genre-buttons" value="{{genre_id}}">{{user_songs_by_genre_dict[genre_id]['genre']}}</button> <br>
+<body id="profile_body">
+    <div class="container-fluid" id="stuff">
+        <div class="row user-profile">
+            <div class="col-md-2" id="genres-column">
+                {% for genre_id in user_songs_by_genre_dict %}
+                <button class="genre-buttons" value="{{genre_id}}">{{user_songs_by_genre_dict[genre_id]['genre']}}</button> <br>
 
-    <ul class="hidden" id="{{genre_id}}">
-   {% for song in user_songs_by_genre_dict[genre_id]["song_list"] %}
-        <li>Song: {{song.name}} Artist: {{song.artist}} Album: {{song.album}} Release Date: {{song.release_date}}</li>
+                <ul class="hidden" >
+        
+                {% for song in user_songs_by_genre_dict[genre_id]["song_list"] %}
+                <li>Song: {{song.name}} Artist: {{song.artist}} Album: {{song.album}} Release Date: {{song.release_date}}</li>
 
-    {% endfor %}
-    </ul>
+                {% endfor %}
+                    </ul>
 
-{% endfor %}
-
+                {% endfor %}
+            </div> {# this closes col #}
+        
+        <div class="col-md-8" id="users_songs_table">
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">Song</th>
+                    <th scope="col">Artist</th>
+                    <th scope="col">Album</th>
+                    <th scope="col">Release Date</th>
+                    </tr>
+                </thead>
+                {% for genre_id in user_songs_by_genre_dict %}
+                <tbody class="hidden" id="{{genre_id}}">
+                    {% for song in user_songs_by_genre_dict[genre_id]["song_list"] %}
+                    <tr>
+                    <th scope="row">{{song.name}}</th>
+                    <td>{{song.artist}}</td>
+                    <td>{{song.album}}</td>
+                    <td>{{song.release_date}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {% endfor %}
+                </table>
+        </div> {# this closes col #}
+        </div> {# this closes row #}
+    </div>
 <script src="/static/ajaxuserprofile.js"></script>
-
+</body>
 {% endblock %}
 
 

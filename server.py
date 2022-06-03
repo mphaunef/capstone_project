@@ -40,7 +40,7 @@ def handle_login():
 
     if not user: 
         flash('Incorrect user or password. Please try again.')
-        return redirect('/')
+
     if user:
         if user.password == password:
             session["username"] = user.username
@@ -49,7 +49,8 @@ def handle_login():
             return redirect('/grantspotify')
         else:
             flash('Incorrect user or password. Please try again.')
-            return redirect('/')
+            
+    return redirect('/')
 
 
 
@@ -296,7 +297,7 @@ def profile_page():
 
     user_songs_by_genre_dict = crud.make_user_profile_dictionary(session['user_id'])
 
-    return render_template('user_profile.html', user_songs_by_genre_dict=user_songs_by_genre_dict)
+    return render_template('user_profile.html', user_songs_by_genre_dict=user_songs_by_genre_dict, username=session['username'])
 
 
 if __name__ == "__main__":
