@@ -221,6 +221,13 @@ songs_by_genre_dict = { 87: # genre_id
 ##double_list.append(num*2) -> this is expression in list comprehension
 '''
 
+
+def find_favorite_songs(user_id, song_id):
+    '''In users_songs at user_id & song_id, where like=True'''
+    liked_song_objs = db.query(User_Song.song_id).filter(User_Song.user_id == user_id, like== True).all()
+
+    return liked_song_objs
+
 if __name__ == "__main__":
     from server import app
     # DebugToolbarExtension(app)

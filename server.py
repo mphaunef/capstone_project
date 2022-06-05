@@ -72,9 +72,8 @@ def handle_new_user():
         return redirect('/newuser')
     else: 
         user_information = crud.create_new_user(email, password, username)
-        session["username"] = user_information.username
-        # session["logged_in"] = True
-        return redirect('/grantspotify')
+        session["username"] = user_information.username 
+        return redirect('/')
 
 
 @app.route('/grantspotify')
@@ -84,7 +83,7 @@ def display_spotify_button():
 
 
 
-@app.route('/homepage')
+@app.route('/home')
 def display_homepage():
 
     if 'username' not in session or 'auth_token' not in session:
@@ -103,9 +102,9 @@ def display_homepage():
         genres_list = []
         for genres in genres_json['genres']:
             genres_list.append(genres)
-        return render_template('homepage.html', genres=genres_list)
+        return render_template('home.html', genres=genres_list)
 
-@app.route('/homepage', methods=['POST'])
+@app.route('/home', methods=['POST'])
 def spotify_requests():
     '''All requests to Spotify API'''
 
@@ -280,7 +279,7 @@ def handle_access_code():
     session['auth_token']['arrival_time'] = datetime.utcnow()
     
 
-    return redirect('/homepage')
+    return redirect('/home')
 
 
 
@@ -298,6 +297,10 @@ def profile_page():
 
     return render_template('test.html', user_songs_by_genre_dict=user_songs_by_genre_dict, username=session['username'])
 
+@app.route('/FAQ')
+def show_faq():
+
+    return render_template('faq.html')
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
