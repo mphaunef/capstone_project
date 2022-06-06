@@ -141,3 +141,7 @@ if SONG ID ALREADY EXISTS IN DATABASE DO EVERYTHING AGAIN : )
    /* background-color: aqua !important;
 } */ */
 /* *********************************** */
+
+<div class="col-md-2 align-self-center" id="homepage-column1">
+                <h2>What genre are you feeling?</h2>
+            </div>

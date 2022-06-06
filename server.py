@@ -198,6 +198,7 @@ def spotify_requests():
 
 
 
+
     # recommended_song_name = get_recommendation_request_json['tracks'][0]['name'] # these lines may not need to happen until you have a viable song
     # recommended_song_artist = get_recommendation_request_json['tracks'][0]['album']['artists'][0]['name']
     # recommended_song_album = get_recommendation_request_json['tracks'][0]['album']['name']
@@ -243,7 +244,24 @@ def spotify_requests():
 
     return jsonify(recommended_song_id)
 
+@app.route('/<id>/favorites')
+def favoriting(id):
+     #if button is pressed?
+    # update_favorite = (
+    # update(user_songs).
+    # where(user_songs.user_id == session['user_id'], user_songs.like == None).
+    # values(like = True) )
+    # get_song_id_by_spotify_id(spotify_song_id)
+    print("i'm before the stuff")
+    song_obj = crud.get_song_id_by_spotify_id(id)
+    print(f"song_obj = {song_obj}")
+    song_id = song_obj.song_id
+    print(f" song_id = {song_id}")
 
+    user_song_obj = crud.check_if_song_exists_for_user(session['user_id'], song_id)
+    user_song_obj.like = True
+    db.session.commit()
+    return {}
 
 @app.route('/auth')
 def handle_access_code():
@@ -295,12 +313,21 @@ def profile_page():
 
     user_songs_by_genre_dict = crud.make_user_profile_dictionary(session['user_id'])
 
-    return render_template('test.html', user_songs_by_genre_dict=user_songs_by_genre_dict, username=session['username'])
+    return render_template('user_profile.html', user_songs_by_genre_dict=user_songs_by_genre_dict, username=session['username'])
 
 @app.route('/FAQ')
 def show_faq():
 
     return render_template('faq.html')
+
+@app.route('/likes')
+def show_likes():
+
+    liked_songs_list = crud.find_favorite_songs(session['user_id'])
+
+    return render_template('favorites.html',
+                            username=session['username'],
+                            liked_songs_list=liked_songs_list)
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

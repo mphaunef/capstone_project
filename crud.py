@@ -36,6 +36,8 @@ def enter_new_song_to_user(user_id, song, genre_name):
     print(song)
     song.songs_to_user_songs.append(User_Song(user_id=user_id))
     db.session.add(song)
+
+
     # .append(songs_genres(genre_id=genre_name))
     #step 1
     # User.query.filter(User.email == email).first()
@@ -78,7 +80,6 @@ def check_if_song_exists_for_user(user_id, song_id):
     #in server, if this function returns anything but None, a user HAS listened to the song
     print(song_id)
     print(user_id)
-    # print(listened)
     return listened
 
 
@@ -222,11 +223,22 @@ songs_by_genre_dict = { 87: # genre_id
 '''
 
 
-def find_favorite_songs(user_id, song_id):
+def find_favorite_songs(user_id):
     '''In users_songs at user_id & song_id, where like=True'''
-    liked_song_objs = db.query(User_Song.song_id).filter(User_Song.user_id == user_id, like== True).all()
+    liked_song_ids = db.session.query(User_Song.song_id).filter(User_Song.user_id == user_id, User_Song.like == True).all()
 
-    return liked_song_objs
+    song_id_list = [] 
+    liked_songs_information = []
+
+    for liked_song_id in liked_song_ids:
+        song_id_list.append(liked_song_id[0])
+
+    for song_id in song_id_list:
+        liked_songs_information.append(Song.query.get(song_id))
+
+    print(liked_songs_information)
+
+    return liked_songs_information
 
 if __name__ == "__main__":
     from server import app
