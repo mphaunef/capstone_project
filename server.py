@@ -18,9 +18,7 @@ CLIENT_SECRET = environ['CLIENT_SECRET']
 
 def check_if_token_is_expired(session_arrival_time_value):
     now_time = datetime.utcnow()
-    print(now_time)
     session_arrival_time_value = session_arrival_time_value.replace(tzinfo=None)
-    print(session_arrival_time_value)
     time_difference = now_time - session_arrival_time_value
     return time_difference.total_seconds() > 3600
     
@@ -99,6 +97,7 @@ def display_homepage():
         }
         genres_request = requests.get(url=genre_endpoint, headers=headers)
         genres_json = genres_request.json()
+        
         genres_list = []
         for genres in genres_json['genres']:
             genres_list.append(genres)
@@ -163,16 +162,14 @@ def spotify_requests():
     recommended_song_id = get_recommendation_request_json['tracks'][0]['id']
 
 
-    # unusable_song = True
+    '''Logic to continue to search for a new song if user has already listened to returned song'''
  
     while True:
-        song_obj = crud.get_song_id_by_spotify_id(recommended_song_id) #recommended_song_id
+        song_obj = crud.get_song_id_by_spotify_id(recommended_song_id)
         if song_obj != None:
             checking_if_user_listened = crud.check_if_song_exists_for_user(user_id=session['user_id'], song_id=song_obj.song_id)
             if checking_if_user_listened == None:  
                 #do everything again
-                # crud.enter_new_song_to_user(user_id=3, song=checking_song_obj, genre_name=genre_choice)
-                # unusable_song = False
                 break
             else:
                 song_choice = random.choice(spotify_users_playlist_items_json['items'])
@@ -182,81 +179,29 @@ def spotify_requests():
                 get_recommendation_request = requests.get(url=get_recommendation_request_endpoint, headers=headers)
                 get_recommendation_request_json = get_recommendation_request.json()
                 recommended_song_id = get_recommendation_request_json['tracks'][0]['id']
-                # break
+
 
         else:
+
             # make a song obj
-            recommended_song_name = get_recommendation_request_json['tracks'][0]['name'] # these lines may not need to happen until you have a viable song
+            recommended_song_name = get_recommendation_request_json['tracks'][0]['name']
             recommended_song_artist = get_recommendation_request_json['tracks'][0]['album']['artists'][0]['name']
             recommended_song_album = get_recommendation_request_json['tracks'][0]['album']['name']
             recommended_song_release_date = get_recommendation_request_json['tracks'][0]['album']['release_date']
+
             # overwriting song_obj variable name so that it's no longer None
             song_obj = crud.enter_new_song_to_song_table(spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date)
-            # unusable_song = False
             break
+
     crud.enter_new_song_to_user(user_id=session['user_id'], song=song_obj, genre_name=genre_choice)
-
-
-
-
-    # recommended_song_name = get_recommendation_request_json['tracks'][0]['name'] # these lines may not need to happen until you have a viable song
-    # recommended_song_artist = get_recommendation_request_json['tracks'][0]['album']['artists'][0]['name']
-    # recommended_song_album = get_recommendation_request_json['tracks'][0]['album']['name']
-    # recommended_song_release_date = get_recommendation_request_json['tracks'][0]['album']['release_date']
-
-    #Database entry
-    # checking_song_obj = crud.get_song_id_by_spotify_id('0sdhpuSSWjRvrVAYDyWaBc')
-    # print(checking_song_obj)
-
-    # print(f"SESSION USER ID = {session['user_id']}")
-    # print('i am after the None')
-    # if checking_song_obj != None:
-
-    #     print('i am in side database now')
-    #     #checking if a user has listened to this song (returns song obj or None)
-    #     checking_if_user_listened = crud.check_if_song_exists_for_user(user_id=3, song_id=checking_song_obj.song_id)
-    #     print(checking_if_user_listened)
-
-
-    #     if checking_if_user_listened == None:
-
-    #         # crud.enter_new_song_to_user(user_id=session['user_id'],spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date, genre_name=genre_choice)
-    #         # user_id=session['user_id']
-    #         crud.enter_new_song_to_user(user_id=3, song=checking_song_obj, genre_name=genre_choice)
-    #         #need to write new function to replace this ^ that connects existing
-    #         #song in song table to specific user
-    #         return jsonify('0sdhpuSSWjRvrVAYDyWaBc')
-    #         # return ('ya')
-    #     else:
-    #         print('i exist idiot')
-    #         return ('no')
-    #         spotify_requests()
-    # else:
-
-    #     # crud.enter_new_song_to_user(user_id=session['user_id'],spotify_song_id=1RwwmiVtLAtPmxAqKVfwgG, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date, genre_name=genre_choice)
-    #     crud.enter_new_song_to_song_table(spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date, genre_name=genre_choice)
-    #     return jsonify(recommended_song_id)
-
-
-
-
-    # crud.enter_new_song_to_user(user_id=session['user_id'],spotify_song_id=recommended_song_id, song_name=recommended_song_name, artist=recommended_song_artist, album=recommended_song_album, release_date=recommended_song_release_date, genre_name=genre_choice)
 
     return jsonify(recommended_song_id)
 
 @app.route('/<id>/favorites')
 def favoriting(id):
-     #if button is pressed?
-    # update_favorite = (
-    # update(user_songs).
-    # where(user_songs.user_id == session['user_id'], user_songs.like == None).
-    # values(like = True) )
-    # get_song_id_by_spotify_id(spotify_song_id)
-    print("i'm before the stuff")
+
     song_obj = crud.get_song_id_by_spotify_id(id)
-    print(f"song_obj = {song_obj}")
     song_id = song_obj.song_id
-    print(f" song_id = {song_id}")
 
     user_song_obj = crud.check_if_song_exists_for_user(session['user_id'], song_id)
     user_song_obj.like = True
@@ -265,8 +210,8 @@ def favoriting(id):
 
 @app.route('/auth')
 def handle_access_code():
+
     access_code = request.args.get('code')
-    print(access_code)
     token_url = 'https://accounts.spotify.com/api/token'
     redirect_after_login = 'http://localhost:5000/auth'
     auth_header = base64.urlsafe_b64encode((CLIENT_ID + ':' + CLIENT_SECRET).encode()) 
@@ -293,7 +238,7 @@ def handle_access_code():
         session['auth_token'].update({'access_token':data['access_token']})
         session.modified = True 
 
-    print(token_request.json())
+    # print(token_request.json())
     session['auth_token']['arrival_time'] = datetime.utcnow()
     
 
@@ -304,12 +249,12 @@ def handle_access_code():
 
 @app.route('/logout')
 def logout():
+
     session.clear()
     return redirect('/')
 
 @app.route('/profile')
 def profile_page():
-
 
     user_songs_by_genre_dict = crud.make_user_profile_dictionary(session['user_id'])
 
@@ -328,6 +273,7 @@ def show_likes():
     return render_template('favorites.html',
                             username=session['username'],
                             liked_songs_list=liked_songs_list)
+
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

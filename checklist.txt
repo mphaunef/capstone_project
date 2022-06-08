@@ -4,29 +4,29 @@
     once created, redirect to homepage as logged in user? x 
     or? make user log in again using new information x 
 -form.get / request.get + session[] in server.py x  
--seed database with example data - not using spotify response information
-
-spotify api:
-user authentication
-get several playlist request using api
-randomly choose a playlist
-randomly choose a song inside playlist
-use "recommended" endpoint based on randomly chosen song to return a new song 
 
 
+spotify api: x 
+user authentication x 
+get several playlist request using api x 
+randomly choose a playlist x 
+randomly choose a song inside playlist x 
+use "recommended" endpoint based on randomly chosen song to return a new song  x 
 
-user authentication:
+
+
+user authentication: 
 ????? implicit ?
--redirect to new page with button to sign in with spotify after logging in
--ajax to handle on click?
-- once logged in redirect to homepage with user token information (spotify) and user information (database)
+-redirect to new page with button to sign in with spotify after logging in x 
+-ajax to handle on click? x 
+- once logged in redirect to homepage with user token information (spotify) and user information (database) x
 
 - store spotify id in databse ???
-get users playlists:
+get users playlists: x 
  	get /v1/users/{user_id}/playlists 
     .random to choose 1 playlist id
     30XoqT3eqbI5b6AwL6xeUs
-get/store(?) songs based on chosen playlist:
+get/store(?) songs based on chosen playlist: x 
     get /v1/playlists/{playlist_id}/tracks 
     .random to choose 1 song id, artist id, and genre id
      song id : 41NDVWdAb4YFMAaMB950zu
@@ -34,114 +34,27 @@ get/store(?) songs based on chosen playlist:
      genre id : user chosen genre from form (string) - dropdown menu ???
         https://developer.spotify.com/console/get-available-genre-seeds/
 
-(user-read-email???? can use this in database???)
 
 
-get recommendation based on song id, artist id, genre id:
+get recommendation based on song id, artist id, genre id: x 
     get 	https://api.spotify.com/v1/recommendations 
 
 
-finally: 
+finally: x 
 
 if SONG ID ALREADY EXISTS IN DATABASE DO EVERYTHING AGAIN : )
 
 
 
 
->crud function for adding song by choosen genre
->add logic to not play song if its in database per user
->user profile
-    show existing genres for that specific user AS buttons
-    THEN can click into genre
-    once in genre, display all songs in genre from users
+>crud function for adding song by choosen genre x 
+>add logic to not play song if its in database per user x 
+>user profile x 
+    show existing genres for that specific user AS buttons x 
+    THEN can click into genre x 
+    once in genre, display all songs in genre from users x 
 
 
->navigation bar
->forgot password/username
+>navigation bar x 
+>forgot password/username x 
 
-
-
-/* #bg {
-    position: fixed; 
-    top: -50%; 
-    left: -50%; 
-    width: 200%; 
-    height: 200%;
-    z-index: -1;
-}
-
-#bg img {
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    right: 0; 
-    bottom: 0; 
-    margin: auto; 
-    min-width: 50%;
-    min-height: 50%;
-} */
-
-/* #profile_body{
-    min-height: 980px;
-    max-height: 980px;
-    background-image: url('/static/images/spotify_knockoff.png');
-    background-repeat: no-repeat;
-    background-size: 1920px 1050px;
-
-} 
-
-.row.user-profile{
-    /* margin-top: 1000px; */
-    background-color: rgb(44, 44, 44);
-    /* background-color: aqua; */
-    /* padding-top: 30px;
-    padding-bottom: 30px;
-    border-radius: 10px;
-    max-width: 1000px;
-    margin: 0 auto;
-    text-align: center;
-    justify-content: center; */
-} */
-
-/* #genres-column{
-    background-color: lightgrey;
-    border-radius: 10px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-#users_songs_table{
-    background-color: lightgrey;
-    border-radius: 10px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    margin-left: 5px;
-    align-content: center;
-    align-items: center;
-} */
-
-/* .container-fluid{
-    /* justify-content: center;
-    align-items: center; */
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
-    /* margin-top: 50px; */
-/* }
-
-.user-profile{
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
-}
-
-/* .all{
-   color: aqua !important;
-   /* min-width: 3000px !important; */
-   /* background-color: aqua !important;
-} */ */
-/* *********************************** */
-
-<div class="col-md-2 align-self-center" id="homepage-column1">
-                <h2>What genre are you feeling?</h2>
-            </div>

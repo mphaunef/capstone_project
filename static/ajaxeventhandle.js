@@ -4,8 +4,7 @@ const spotifyAuthButton = document.querySelector('#spotify-auth-button')
 const client_id =  '0ea9b00b04ac407bbb6cd462f139b996'
 const spotify_authorize_endpoint = 'https://accounts.spotify.com/authorize'
 const redirect_after_login = 'http://localhost:5000/auth'
-// const get_current_user_id_endpoint = 'https://api.spotify.com/v1/me'
-// const scopes = ['playlist-read-private', 'user-read-private']
+
 
 spotifyAuthButton.addEventListener('click', (evt) => {
         evt.preventDefault()

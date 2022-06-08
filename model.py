@@ -35,6 +35,7 @@ class User_Song(db.Model):
     def __repr__(self):
         return (f"<User_Song user_id={self.user_id} song_id={self.song_id} like={self.like}>")
 
+
 class Song(db.Model):
 
     __tablename__ = 'songs'
@@ -69,6 +70,7 @@ class Song_Genre(db.Model):
     def __repr__(self):
         return (f"<Song_Genre song_genre_id={self.song_genre_id} song_id={self.song_id} genre_id={self.genre_id}>")
 
+
 class Genre(db.Model):
 
     __tablename__ = 'genres'
@@ -99,7 +101,6 @@ class User_Genres(db.Model):
     
     def __repr__(self):
         return (f"<User_Genres user_genre_id={self.user_genre_id} genre_id={self.genre_id} user_id={self.user_id}>")
-
 
 
 def connect_to_db(flask_app, db_name):

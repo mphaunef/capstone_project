@@ -4,8 +4,7 @@ import server
 import crud
 
 
-# os.system("dropdb appdb")
-# os.system("createdb appdb")
+
 model.connect_to_db(server.app, "appdb")
 model.db.create_all()
 
@@ -15,10 +14,5 @@ for genre in genre_list:
     crud.add_genre_to_database(genre)
 
 
-
-# os.system("dropdb appdb")
-# os.system("createdb appdb")
-# model.connect_to_db(server.app, "appdb")
-# model.db.create_all()
 
 

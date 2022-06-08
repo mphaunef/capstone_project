@@ -1,9 +1,4 @@
-# 1 item = 1 playlist
-#scary_thing['items'][0] etc
-#playlist= scary_thing['items'][0]
-#playlist.keys()
-#playlist['id']
-scary_thing = {
+thing = {
   "tracks": [
     {
       "album": {
