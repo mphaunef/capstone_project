@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<body>
+    <div class="container" id="accordion-container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 align-self-center">
+                <div class="accordion" id="myAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button type="button" class="accordion-button " data-bs-toggle="collapse" data-bs-target="#collapseOne"> What is Mulberry and how does it work?</button>									
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapsed">
+                            <div class="card-body">
+                                <p>Using Spotify's API, Mulberry randomly chooses a song from within one of your randomly choosen playlists. With this information and your hand-picked genre choice, Mulberry then asks Spotify's API for a song recommendation. Mulberry's main goal is to expose users to new songs based on their previous tastes and favorite genres.
+                                    <br>
+                                <br>
+                                "Music gives a soul to the universe, wings to the mind, flight to the imagination and life to everything." <br>― Plato
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseTwo">Why was Mulberry developed?</button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse">
+                            <div class="card-body">
+                                <p>During her stint at Hackbright Academy, Megan wanted to mesh her love for music recommendations and coding into one passion project.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseThree">Who developed Mulberry?</button>                     
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse">
+                            <div class="card-body">
+                                <p><a href="https://www.linkedin.com/in/megan-phaunef/" target="_blank">Megan Phaunef</a> developed Mulberry out of a passion for music and a pursuit of fullstack programming knowledge. 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFour">
+                            <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseFour">How can I contact the developer?</button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse">
+                            <div class="card-body">
+                                <p>Contact Megan at her<a href="https://www.linkedin.com/in/megan-phaunef/" target="_blank"> LinkedIn</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

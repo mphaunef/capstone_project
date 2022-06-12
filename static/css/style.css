@@ -1,0 +1,312 @@
+html, body {
+    height:100%;
+    background-image: url('/static/images/background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+nav{
+    background-color: rgb(44, 44, 44);
+
+}
+
+#mulberry-name{
+    font-family: 'Zeyada', cursive;
+    font-size: 40px;
+}
+
+.navbar{
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+#nav-dropdown{
+   
+    background-color: rgb(101, 53, 190);
+}
+
+#home-button{
+    display:flex;
+    color: white
+}
+
+
+footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color:rgb(44, 44, 44);
+    font-size: small;
+    text-align: center;
+}
+
+a {
+    color:white;
+    text-decoration: none;
+}
+
+
+.container-md{
+    max-width: 200px;
+    margin: auto;
+
+}
+  
+#submit-button {
+    background-color: rgb(30, 215, 96);
+}
+
+#login-column {
+    background-color: rgb(44, 44, 44);
+    border-radius: 8px;
+    width: 40%;
+    padding-top: 40px;
+    padding-bottom: 10px;
+    box-shadow: 15px 20px 20px  rgb(28, 27, 27)
+
+}
+
+#login-body {
+    background-image: url('/static/images/background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+#spotify-auth-button {
+    background-color: rgb(30, 215, 96);
+}
+
+#spotify-logo{
+    width: 170px;
+    height: 50px;
+    margin: 0 auto;
+}
+
+#connect-spotify{
+    text-align: center;
+}
+
+#spotify-body {
+    background-image: url('/static/images/background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 94vh;
+
+    margin: 0;
+}
+
+#spotify-column {
+    background-color: rgb(44, 44, 44);
+    border-radius: 8px;
+    width: 30%;
+    padding-top: 40px;
+    padding-bottom: 10px;
+    box-shadow: 15px 20px 20px  rgb(28, 27, 27);
+
+}
+
+
+
+
+
+
+#homepage-column{
+    display: flex;
+    justify-content: center;
+    max-height: fit-content;
+    margin: 0;
+    margin-top: 20px;
+}
+
+#embed-iframe{
+    width:800px;
+    min-height: 778px;
+    max-height: 778px;
+    overflow : auto;
+}
+
+iframe {
+    margin-bottom: 5px;
+  }
+
+#genre-column{
+    
+}
+
+#genre-form{
+    background-color: rgb(44, 44, 44);
+    padding-top: 10px;
+    padding-left: 10px;
+    border-radius: 10px;
+
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.custom-select{
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#spotify-embed{
+    display: flex;
+    justify-content: center;
+    max-height: fit-content;
+    margin: 0;
+    margin-top: 20px;
+}
+
+.favorite-button {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+
+
+
+
+
+
+
+#profile-row {
+    min-width: 1000px;
+    max-width: 1000px;
+
+    border-radius: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+th{
+    max-width: 130px;
+    min-width: 130px;
+    text-align:center;
+}
+
+td{
+    max-width: 130px;
+    min-width: 130px;
+    text-align:center;
+}
+
+
+
+
+#test-container{
+    display:flex;
+   justify-content: center;
+   align-items: center;
+   height: 90%;
+
+}
+
+
+#btns{
+    border: 5px solid rgb(31, 189, 86);
+    max-height: 500px;
+    min-height: 500px;
+    overflow: auto;
+    background-color: rgb(53, 53, 53);
+    border-radius: 10px;
+    box-shadow: 15px 20px 20px  rgb(28, 27, 27);
+    text-align: center;
+}
+
+#song-information{
+    border: 5px solid rgb(31, 189, 86);
+    max-height: 500px;
+    min-height: 500px;
+    overflow: auto;
+    background-color:rgb(53, 53, 53);
+    border-radius: 10px;
+    box-shadow: 15px 20px 20px  rgb(28, 27, 27);
+}
+
+
+#genre-buttons { 
+    
+    text-decoration:none;
+    background-color: transparent;
+    border-color: transparent;
+    margin-top: 2px;
+    margin-bottom: 3px;
+
+
+}
+
+#genre-buttons:hover {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+    transition: 0.5s ease;
+    color: rgba(31, 189, 86, 0.789);
+    border-color: rgba(31, 189, 86, 0.58);
+    border-radius: 5px;
+    margin-bottom: 3px;
+    padding: 5px;
+}
+
+
+
+
+.hidden {
+    display: none;
+}
+
+
+#accordion-container{
+   display:flex;
+   justify-content: center;
+   align-items: center;
+   height: 90%;
+
+}
+
+.accordion-button:not(.collapsed) {
+    color: rgb(255, 255, 255);
+    background-color: rgb(31, 33, 35);
+    box-shadow: rgba(0, 0, 0, 0.13) 0px -1px 0px inset;
+  }
+
+
+
+h2{
+    min-width: 800px;
+}
+
+.card-body{
+    max-width: 800px;
+}
+
+
+
+#username-div{
+    margin-left: 8px;
+    margin-bottom: 80px;
+    font-family: 'Zeyada', cursive;
+    font-size: 50px;
+}

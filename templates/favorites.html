@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %} My Profile {% endblock %}
+
+{% block body %}
+<body id="profile-body">
+    <div class="container" id="test-container">
+        <div class="row justify-content-center" id="profile-row">
+            <div class="col-md-12">
+                <h2 id="username-div">{{session['username']}}'s favorites!</h2>
+            </div>
+                <div class="col-md-9" id="table-column2">
+                    <div id="song-information">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col-md-3">Song</th>
+                                <th scope="col-md-3">Artist</th>
+                                <th scope="col-md-3">Album</th>
+                                <th scope="col-md-3">Release Date</th>
+                                </tr>
+                            </thead>
+                            {% for song in liked_songs_list %}
+                            <tbody id="{{song.song_id}}">
+                                
+                                <tr>
+                                <th scope="row">{{song.name}}</th>
+                                <td>{{song.artist}}</td>
+                                <td>{{song.album}}</td>
+                                {% if song.release_date != None %}
+                                    <td>
+                                    {{song.release_date.strftime("%m/%d/%Y")}}
+                                    </td>{% endif %}
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

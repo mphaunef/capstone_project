@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock %}
+<script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
+{% block body %}
+
+<body>
+    <div class="container-fluid justify-content-center">
+        <div class="row justify-content-center  align-items-center">
+            <div class="col-md-6 align-self-center" id="homepage-column">
+                <form action="/home" id="genre-form">
+                    <div class="col-md-6 justify-content-center  align-items-center">
+                    <h5 style="text-align: center;">What genre are you feeling today?</h5>
+                    </div>
+                    <div class="col-md-6 justify-content-center  align-items-center" id="genre-column">
+                        <div class="justify-content-center  align-items-center" style="display: flex;">
+                        <select class="custom-select" name="genre_selection" id="genre_selection">
+                        {% for genre in genres %}
+                        <option value={{genre}}> {{genre}}</option>
+                        {% endfor %}
+                        </select></div>
+                        <button type="submit" class="btn ptn-primary form-control" id="get_recommendation_button"> Go!</button>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+            
+            <div class="col-md-12 align-self-center" id="spotify-embed"> 
+                <div id="embed-iframe">
+                </div>
+            </div>
+        <script src="/static/ajaxhomepage.js"></script>
+    </div>
+</body>
+{% endblock %}
