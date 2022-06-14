@@ -45,6 +45,7 @@ Tech Stack:
 - Python
 - Javascript
 - SQLAlchemy
+- PostgreSQL
 - HTML
 - CSS
 - Jinja2
